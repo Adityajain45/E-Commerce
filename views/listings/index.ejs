@@ -1,0 +1,339 @@
+<% layout("/layouts/bollerplate") %>
+
+
+<style>
+    #filters {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: flex-start; /* Align filters to the left */
+        gap: 2rem; /* Add space between filters */
+        margin-top: 1rem;
+    }
+
+    .filter {
+        text-align: center;
+        opacity: 0.7;
+        transition: opacity 0.3s ease;
+        
+    }
+
+    .filter:hover {
+        opacity: 1;
+        cursor: pointer;
+    }
+
+    .filter i {
+        font-size: 0.8rem; /* Adjust icon size */
+        display: block;
+    }
+
+    .filter p {
+        margin-top: 0.5rem; /* Add spacing between icon and text */
+        font-size: 1rem; /* Adjust text size */
+    }
+      /* //// */
+
+   /* Smaller slider container */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px; /* Reduced width */
+    height: 20px; /* Reduced height */
+    margin-right: 10px;
+}
+
+/* Hide the default checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* The slider (smaller) */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 20px;
+}
+
+/* The circle in the slider (smaller) */
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 14px; /* Reduced height */
+    width: 14px; /* Reduced width */
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+/* When the checkbox is checked, the slider background changes */
+input:checked + .slider {
+    background-color: #de0505;
+}
+
+/* Move the circle to the right when the checkbox is checked */
+input:checked + .slider:before {
+    transform: translateX(20px); /* Adjust based on new width */
+}
+
+/* Optional: You can make the slider more rounded */
+.slider.round {
+    border-radius: 20px;
+}
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/* Style the label for better alignment and look */
+.switch-label {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 0.875rem; /* Slightly smaller font */
+    cursor: pointer;
+}
+ 
+.tax-info {
+    display: none;
+}
+
+.tax-toggle{
+    border: 1px solid black;
+    border-radius: 1rem;
+    height: 2.5rem;
+    padding: 1rem;
+    /* margin-left: 1rem; */
+    display: flex;
+    align-items: center;
+}
+    /* Media query for smaller screen sizes */
+    
+
+</style> 
+
+<body>
+   
+   <!-- <h3>All Listings</h3> -->
+    <!-- <form method="get" action="/listings/new">
+        <button>Create New Listing</button>
+    </form> -->
+
+    <div id="filters">
+        <div class="filter">
+            <i class="fa-solid fa-fire"></i>
+            <p>Trending</p>  
+        </div>
+        <div class="filter">
+            <i class="fa-solid fa-bed"></i>
+            <p>Rooms</p>  
+        </div>
+        <div class="filter">
+            <i class="fa-solid fa-mountain-city"></i>
+            <p>Iconic Cities</p>  
+        </div>
+        <div class="filter">
+            <i class="fa-solid fa-mountain"></i>
+            <p>Mountains</p>  
+        </div>
+        <div class="filter">
+            <i class="fa-brands fa-fort-awesome"></i>
+            <p>Castles</p>  
+        </div>
+        <div class="filter">
+            <i class="fa-solid fa-person-swimming"></i>
+            <p>Amazing Pools</p>  
+        </div>       
+        <div class="filter">
+            <i class="fa-solid fa-campground"></i>
+            <p>Camping</p>  
+        </div>
+        <div class="filter">
+            <i class="fa-solid fa-tractor"></i>
+            <p>Farms</p>  
+        </div>
+        <div class="filter">
+            <i class="fa-solid fa-snowflake"></i>
+            <p>Arctic</p>  
+        </div>
+       
+        
+        <div class="tax-toggle text-end">
+            <label class="switch">
+                <input type="checkbox" id="flexSwitchCheckDefault">
+                <span class="slider round"></span>
+            </label>
+            <label for="flexSwitchCheckDefault" class="switch-label">Display total after taxes</label>
+        </div>
+        
+        
+    </div>
+</body>
+                    
+
+    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
+        <%  for(let listing of allListings){  %>
+            <a href="/listings/ <%= listing._id %>" class="listing-link">
+            <div class="card col listing-card">
+                <img src=" <%= listing.image.url  %> " class="card-img-top" alt="listing_image" style="height: 20rem;">
+                <div class="card-img-overlay"></div>
+                <div class="card-body">
+                  <h5 class="card-title"></h5>
+                    <b><%= listing.title %> </b><br>
+                     &#8377; <%= listing.price.toLocaleString("en-IN") %> / night
+                     <i class="tax-info"> &nbsp; &nbsp;+18% GST</i>
+                   
+                    </p>
+                </div>
+            </div>
+        </a>
+            <% } %>
+    </div>
+</body>
+
+<script>
+    let taxSwitch = document.getElementById("flexSwitchCheckDefault");
+    taxSwitch.addEventListener("click", () =>{
+      let taxInfo = document.getElementsByClassName("tax-info");
+        for(info of taxInfo) {
+            if(info.style.display != "inline"){
+                info.style.display = "inline";
+            }else {
+                info.style.display = "none";
+            }
+        }
+      
+    });
+</script>
+
+
+
+
+
+
+<!-- 
+
+<style>
+    #filters {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: flex-start; /* Align filters to the left */
+        gap: 2rem; /* Add space between filters */
+        margin-top: 1rem;
+    }
+
+    .filter {
+        text-align: center;
+        opacity: 0.7;
+        transition: opacity 0.3s ease;
+        
+    }
+
+    .filter:hover {
+        opacity: 1;
+        cursor: pointer;
+    }
+
+    .filter i {
+        font-size: 0.8rem; /* Adjust icon size */
+        display: block;
+    }
+
+    .filter p {
+        margin-top: 0.5rem; /* Add spacing between icon and text */
+        font-size: 1rem; /* Adjust text size */
+    }
+      /* //// */
+
+   /* Smaller slider container */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px; /* Reduced width */
+    height: 20px; /* Reduced height */
+    margin-right: 10px;
+}
+
+/* Hide the default checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* The slider (smaller) */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 20px;
+}
+
+/* The circle in the slider (smaller) */
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 14px; /* Reduced height */
+    width: 14px; /* Reduced width */
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+/* When the checkbox is checked, the slider background changes */
+input:checked + .slider {
+    background-color: #de0505;
+}
+
+/* Move the circle to the right when the checkbox is checked */
+input:checked + .slider:before {
+    transform: translateX(20px); /* Adjust based on new width */
+}
+
+/* Optional: You can make the slider more rounded */
+.slider.round {
+    border-radius: 20px;
+}
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/* Style the label for better alignment and look */
+.switch-label {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 0.875rem; /* Slightly smaller font */
+    cursor: pointer;
+}
+ 
+.tax-info {
+    display: none;
+}
+
+.tax-toggle{
+    border: 1px solid black;
+    border-radius: 1rem;
+    height: 3.5rem;
+    padding: 1rem;
+    /* margin-left: 1rem; */
+    display: flex;
+    align-items: center;
+}
+    /* Media query for smaller screen sizes */
+    
+
+</style> -->
